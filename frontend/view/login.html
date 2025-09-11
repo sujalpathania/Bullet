@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="/loginpage.css">
+</head>
+<body>
+
+  <div class="form-container" method="post">
+   
+    <form method="post" id="login-form">
+      <h2>login with your email</h2>
+      <input id="name" type="email" placeholder="enter email" name="email"  /><br>
+      <input id="hidden" type="password" placeholder="Password"name="password"  /><br>
+      <button type="submit">Login</button>
+          
+          <p><strong>If you are a new user, please</strong> <a href="/signup">sign up first</a>.</p>
+
+    </form>
+ 
+  </div>
+  <script>
+  // const nameInput = document.getElementById("name");
+  // const passwordInput = document.getElementById("hidden");
+  // const form = document.querySelector("form");
+
+  // form.addEventListener("submit", (e) => {
+  //   if (!nameInput.value || !passwordInput.value) {
+  //     alert("Enter your name and password");
+  //     e.preventDefault(); 
+  //   }
+         
+  // });
+  
+
+
+ /***************************************************************/
+
+//    const nameInput = document.getElementById("name");
+//   const passwordInput = document.getElementById("hidden");
+//   const form = document.querySelector("form");
+
+//    form.addEventListener("submit", (e) => {
+//     if (!nameInput.value || !passwordInput.value) {
+//       alert("Enter your name and password");
+//       e.preventDefault(); 
+//     }
+         
+//   });
+
+//  document.getElementById('login-form').addEventListener('submit', async function(e) {
+//             e.preventDefault();
+//             const form = e.target;
+//             const data = {
+//                 email: form.email.value,
+//                 password: form.password.value
+//             };
+
+//             const response = await fetch('/api/auth/login', {
+//                 method: 'POST',
+//                 headers: { 'Content-Type': 'application/json' },
+//                 body: JSON.stringify(data)
+//             });
+
+//             const result = await response.json();
+//             window.location.assign("http://localhost:5000");
+
+//             alert(result.message);
+//         });
+
+document.getElementById('login-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const name = document.getElementById("name");
+    const password = document.getElementById("hidden");
+
+    if (!name.value || !password.value) {
+        alert("Enter your name and password");
+        return; 
+    }
+
+    // Prepare data
+    const data = {
+        email: name.value,            // get value from name input
+        password: password.value     // get value from hidden input
+    };
+
+    try {
+        const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            alert(result.message); // Show success message
+            if (result.redirect) {
+                window.location.href = result.redirect; // Redirect to features.html
+            }
+        } else {
+            alert(result.message); // Show error message
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert("Something went wrong!");
+    }
+});
+</script>
+
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/signup.css" />
+</head>
+<body>
+    <form id="signupForm" method="post">
+        <h1>Sign Up Page</h1>
+
+        <input id="username" type="text" name="username" placeholder="Username" required /><br>
+
+        <input id="email" type="email" name="email" placeholder="Email" required /><br>
+
+        <div style="display: flex;">
+            <input type="text" value="+91" readonly style="width: 60px; padding:12px; border: 1px solid #ddd; border-radius: 5px 0 0 5px; background:#f5f5f5;" />
+            <input id="phoneNumber" type="tel" name="phoneNumber" placeholder="Phone Number" pattern="\d{10}" title="Enter a 10-digit phone number" required style="flex:1; padding:12px; border: 1px solid #ddd; border-left: none; border-radius: 0 5px 5px 0;" />
+        </div><br>
+
+        <input id="password" type="password" name="password" placeholder="Password" required /><br>
+
+        <input id="confirmPassword" type="password" name="confirmPassword" placeholder="Confirm Password" required /><br>
+
+        <button id="btn" type="submit">Sign Up</button><br>
+
+        <p>Already have an account? <a href="/login">Login</a></p>
+    </form>
+
+    <script>
+        const form = document.getElementById("signupForm");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const username = form.username.value.trim();
+            const email = form.email.value.trim();
+            const phoneNumber = form.phoneNumber.value.trim();
+            const password = form.password.value.trim();
+            const confirmPassword = form.confirmPassword.value.trim();
+
+            if (!username || !email || !phoneNumber || !password || !confirmPassword) {
+                alert("All fields are required!");
+                return;
+            }
+
+            if (phoneNumber.length !== 10) {
+                alert("Phone number must be exactly 10 digits!");
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
+                return;
+            }
+
+            try {
+                const response = await fetch("/api/auth/signup", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, email, phoneNumber, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert(data.message);
+                    window.location.href = "/login";
+                } else {
+                    alert(data.message || "Something went wrong");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Server error. Please try again later.");
+            }
+        });
+    </script>
+</body>
+</html>
