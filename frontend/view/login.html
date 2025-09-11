@@ -88,7 +88,9 @@ document.getElementById('login-form').addEventListener('submit', async function(
     };
 
     try {
-        const response = await fetch('/api/auth/login', {
+                const backendUrl = "https://bullet-2.onrender.com/";  // ✅ Add this line
+
+        const response = await fetch(`${backendUrl}/api/auth/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
