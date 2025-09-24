@@ -82,7 +82,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // Serve HTML files from 'view'
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/view/navbar.html'));
+    res.sendFile(path.join(__dirname, '../frontend/view/index.html'));
 });
 
 app.get('/signup', (req, res) => {
