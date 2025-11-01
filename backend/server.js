@@ -62,15 +62,14 @@ const trialRouter = require('./routes/trial');
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "../frontend/public")));
+
 
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/contact', authRoutes2);
 app.use('/trial', trialRouter);
 
-
-// Serve static files like CSS from 'public'
-app.use(express.static(path.join(__dirname, '../frontend/public')));
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {
@@ -82,7 +81,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // Serve HTML files from 'view'
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/view/index.html'));
+  res.sendFile(path.join(__dirname, '../frontend/view/index.html'));
 });
 
 app.get('/signup', (req, res) => {
